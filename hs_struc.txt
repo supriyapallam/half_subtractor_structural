@@ -1,0 +1,39 @@
+//Design Code
+module hs(output diff,barrow,input a,b);
+  exor_gate a1(diff,a,b);
+  inv a2(o1,a);
+  and a3(barrow,o1,b);
+endmodule
+
+module inv(output out,input in);
+  assign out=~in;
+endmodule
+
+module exor_gate(output out,input a,b);
+  assign out=a^b;
+endmodule
+
+//Test Bench Code
+module tb();
+  wire diff,barrow;
+  reg a,b;
+  hs DUT(diff,barrow,a,b);
+  initial
+    begin
+      integer i;
+      for(i=0;i<4;i=i+1)
+        begin
+          {a,b}=i;
+          #10;
+        end
+    end
+  initial
+    begin
+      $monitor("a=%b,b=%b,diff=%b,barrow=%b",a,b,diff,barrow);
+    end
+  initial
+    begin
+      $dumpfile("test.vcd");
+      $dumpvars(1);
+    end
+endmodule
